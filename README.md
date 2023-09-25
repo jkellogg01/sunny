@@ -34,14 +34,14 @@ The `"home_city"` value simply provides a default city name to search when the `
 Sunny is very simple by nature of my inability to do anything much more complicated. As such, given that you have completed your config.json correctly, all you need to do to run sunny is:
 
 ```zsh
-$ Sunny
+$ sunny
 ```
 
 This will retrieve data about whichever city you have set as your default/home city.
 You can also retrieve data about a specific city with the `-c` flag:
 
 ```zsh
-$ Sunny -c denver
+$ sunny -c denver
 ```
 
 As of now, that's really all there is to it.
@@ -53,13 +53,13 @@ Many cities share names, and as such you may need to specify a state or country.
 For example:
 
 ```zsh
-$ Sunny -c paris
+$ sunny -c paris
 ```
 
 will retrieve data about the weather in Paris, France. Someone looking for the weather in Paris, Texas, would need to be a little bit more specific:
 
 ```zsh
-$ Sunny -c paris,tx,usa
+$ sunny -c paris,tx,usa
 ```
 
 The way this is interfacing with OpenWeather's geocoding API is relatively indelicate at the moment, so a good rule of thumb is to follow what is laid out by [their own documentation](https://openweathermap.org/current#geocoding).
