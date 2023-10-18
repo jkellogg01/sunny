@@ -10,7 +10,7 @@ Sunny is my first real Go project and has helped me learn some things (certainly
 
 ## Usage
 
-Sunny is relatively simple to use, but does require a little bit of fanagling[sic] before it can realize its full potential.
+Sunny is relatively simple to use, but does require a little bit of fanagling _[sic]_ before it can realize its full potential.
 
 ### Configuration
 
@@ -71,3 +71,7 @@ I'm new enough to the go language that I'm not really of much help in this depar
 ## Contribution
 
 Given that this is a learning project for me, contributions other than in the aforementioned installation section of this README file will not be accepted for the time being. I'm well aware that there are many things I could be doing better here, and I am more interested in learning how to do so than I am in the app working optimally in the shortest time frame possible.
+
+## Credit
+
+While I have made (and plan to continue making) incremental changes and improvements to this project, it was largely based on [this excellent tutorial by cdruc](https://youtu.be/zPYjfgxYO7k?si=wQNadm2KLwH8iApc). I'm only just beginning to familiarize myself with the Go language and his video was a huge help in understanding how to do specifically the data-retrieval step in making this application work.
