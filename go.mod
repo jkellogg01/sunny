@@ -1,4 +1,4 @@
-module sowing/sunny
+module sunny
 
 go 1.21.1
 
