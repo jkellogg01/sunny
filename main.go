@@ -20,6 +20,6 @@ func main() {
 	currentWeather := weather.GetWeather(lat, lon, key)
 	temp, feels, desc, humidity := currentWeather.Main.Temperature, currentWeather.Main.FeelsLike, currentWeather.Weather[0].Description, currentWeather.Main.Humidity
 
-	fmt.Printf("%s, %s, %s\nlat: %f lon: %f\n", city, state, country, lat, lon)
-	fmt.Printf("Currently %.2fºF and %s\nFeels like %.2fºF, %v%% Humidity\n", temp, desc, feels, humidity)
+	fmt.Printf("%v, %v, %v\nlat: %v lon: %v\n", city, state, country, lat, lon)
+	fmt.Printf("Currently %.2fºF and %v\nFeels like %.2fºF, %v%% Humidity\n", temp, desc, feels, humidity)
 }
