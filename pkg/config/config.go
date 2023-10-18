@@ -15,9 +15,10 @@ func InitConfig() Config {
 	vp := viper.New()
 	var config Config
 
-	vp.SetConfigName("config")
-	vp.SetConfigType("json")
-	vp.AddConfigPath(".")
+	vp.SetConfigName("sunnyrc")
+  vp.SetConfigType("json")
+  vp.AddConfigPath("$GOBIN")
+	vp.AddConfigPath("../..")
 	err := vp.ReadInConfig()
 	if err != nil {
 		log.Panic(err)
