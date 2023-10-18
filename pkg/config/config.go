@@ -17,8 +17,8 @@ func InitConfig() Config {
 
 	vp.SetConfigName("sunnyrc")
   vp.SetConfigType("json")
-  vp.AddConfigPath("$GOBIN")
-	vp.AddConfigPath("../..")
+  vp.AddConfigPath("./pkg/config")
+	vp.AddConfigPath("$HOME/.config/sunny")
 	err := vp.ReadInConfig()
 	if err != nil {
 		log.Panic(err)
