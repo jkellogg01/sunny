@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -28,22 +27,22 @@ func GetWeather(lat float64, lon float64, key string) WeatherResponse {
 	endpoint := fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%v&lon=%v&appid=%v&units=imperial", lat, lon, key)
 	res, err := http.Get(endpoint)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		log.Fatalf("Weather API status: %v\n", res.StatusCode)
+		panic(fmt.Sprintf("Weather API status: %v\n", res.StatusCode))
 	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	var weather WeatherResponse
 	err = json.Unmarshal(body, &weather)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	return weather

@@ -1,8 +1,6 @@
 package config
 
 import (
-	"log"
-
 	"github.com/spf13/viper"
 )
 
@@ -17,16 +15,16 @@ func InitConfig() Config {
 
 	vp.SetConfigName("sunnyrc")
   vp.SetConfigType("json")
-  vp.AddConfigPath("./pkg/config")
+  vp.AddConfigPath(".")
 	vp.AddConfigPath("$HOME/.config/sunny")
 	err := vp.ReadInConfig()
 	if err != nil {
-		log.Panic(err)
+		panic(err)
 	}
 
 	err = vp.Unmarshal(&config)
 	if err != nil {
-    log.Panic(err)
+    panic(err)
 	}
 
 	return config 
