@@ -13,7 +13,7 @@ func InitConfig() Config {
 	vp := viper.New()
 	var config Config
 
-	vp.SetConfigName("sunnyrc")
+	vp.SetConfigName("sunny")
   vp.SetConfigType("json")
   vp.AddConfigPath(".")
 	vp.AddConfigPath("$HOME/.config/sunny")
