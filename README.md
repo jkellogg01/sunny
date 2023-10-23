@@ -14,9 +14,9 @@ Sunny is relatively simple to use, but does require a little bit of fanagling _[
 
 ### Configuration
 
-First, you need a config.json in the main directory of the program. This will contain both your default city and your API key; the former is optional but adds to the intended ease of use, the latter is essential.
+First, you need a sunny.json in `$HOME/.config/sunny`. This will contain both your default city and your API key; the former is optional but adds to the intended ease of use, the latter is essential.
 
-config.json should contain two key-value pairs:
+sunny.json should contain two key-value pairs:
 
 ```json
 {
