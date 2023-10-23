@@ -11,7 +11,6 @@ type Config struct {
 
 func InitConfig() Config {
 	vp := viper.New()
-	var config Config
 
 	vp.SetConfigName("sunny")
   vp.SetConfigType("json")
@@ -22,6 +21,7 @@ func InitConfig() Config {
 		panic(err)
 	}
 
+	var config Config
 	err = vp.Unmarshal(&config)
 	if err != nil {
     panic(err)
