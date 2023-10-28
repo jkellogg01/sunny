@@ -9,7 +9,7 @@ type Config struct {
 	HomeCity string `mapstructure:"home_city"`
 }
 
-func InitConfig() Config {
+func InitConfig() (Config, error) {
 	vp := viper.New()
 
 	vp.SetConfigName("sunny")
@@ -18,14 +18,14 @@ func InitConfig() Config {
 	vp.AddConfigPath("$HOME/.config/sunny")
 	err := vp.ReadInConfig()
 	if err != nil {
-		panic(err)
+		return Config{}, err
 	}
 
 	var config Config
 	err = vp.Unmarshal(&config)
 	if err != nil {
-    panic(err)
+		return Config{}, err
 	}
 
-	return config 
+	return config, nil
 }

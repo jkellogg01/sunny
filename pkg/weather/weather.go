@@ -23,27 +23,27 @@ type WeatherResponse struct {
 	} 										`json:"wind"`
 }
 
-func GetWeather(lat float64, lon float64, key string) WeatherResponse {
+func GetWeather(lat float64, lon float64, key string) (WeatherResponse, error) {
 	endpoint := fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%v&lon=%v&appid=%v&units=imperial", lat, lon, key)
 	res, err := http.Get(endpoint)
 	if err != nil {
-		panic(err)
+		return WeatherResponse{}, err
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		panic(fmt.Sprintf("Weather API status: %v\n", res.StatusCode))
+		return WeatherResponse{}, fmt.Errorf("weather API status: %v", res.StatusCode)
 	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		panic(err)
+		return WeatherResponse{}, err
 	}
 	var weather WeatherResponse
 	err = json.Unmarshal(body, &weather)
 	if err != nil {
-		panic(err)
+		return WeatherResponse{}, err
 	}
 
-	return weather
+	return weather, nil
 }

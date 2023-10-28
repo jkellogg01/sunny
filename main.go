@@ -10,14 +10,24 @@ import (
 )
 
 func main() {
-	config := config.InitConfig()
+	config, err := config.InitConfig()
+	if err != nil {
+		panic(err)
+	}
 	home, key := config.HomeCity, config.ApiKey
 
 	userCity := flag.String("c", home, "Enter the city where you would like to look up the weather")
 	flag.Parse()
-	geo := geocoding.CityGeo(*userCity, key)
+
+	geo, err := geocoding.CityGeo(*userCity, key)
+	if err != nil {
+		panic(err)
+	}
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude
-	currentWeather := weather.GetWeather(lat, lon, key)
+	currentWeather, err := weather.GetWeather(lat, lon, key)
+	if err != nil {
+		panic(err)
+	}
 	temp, feels, desc, humidity := currentWeather.Main.Temperature, currentWeather.Main.FeelsLike, currentWeather.Weather[0].Description, currentWeather.Main.Humidity
 
 	fmt.Printf("%v, %v, %v\nlat: %v lon: %v\n", city, state, country, lat, lon)

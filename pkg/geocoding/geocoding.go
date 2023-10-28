@@ -15,26 +15,28 @@ type Geocoding struct {
 	Longitude float64 `json:"lon"`
 }
 
-func CityGeo(city string, key string) Geocoding {
+func CityGeo(city string, key string) (Geocoding, error) {
 	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&limit=1&appid=%v", city, key)
 	res, err := http.Get(endpoint)
 	if err != nil {
-		panic(err)
+		return Geocoding{}, err
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		panic(fmt.Sprintf("Geocoding API status: %v\n", res.StatusCode))
+		return Geocoding{}, fmt.Errorf("geocoding API status: %v", res.StatusCode)
 	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		panic(err)
+		return Geocoding{}, nil
 	}
+
 	var geocoding []Geocoding
 	err = json.Unmarshal(body, &geocoding)
 	if err != nil {
-		panic(err)
+		return Geocoding{}, err
 	}
-	return geocoding[0]
+
+	return geocoding[0], nil
 }
