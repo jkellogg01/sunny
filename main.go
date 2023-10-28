@@ -10,14 +10,25 @@ import (
 )
 
 func main() {
-	config, err := config.ExtractConfig()
+	userConfig, err := config.ExtractConfig()
 	if err != nil {
 		panic(err)
 	}
-	home, key := config.HomeCity, config.ApiKey
+	home, key := userConfig.HomeCity, userConfig.ApiKey
 
 	userCity := flag.String("c", home, "Enter the city where you would like to look up the weather")
+	userKey := flag.String("k", key, "Enter your API key for the OpenWeather API")
 	flag.Parse()
+	
+	if *userKey == "" {
+		fmt.Printf("It looks like you don't have an API key saved.\nIf you have an API key with openweathermap.org, run 'sunny -k {YOUR_API_KEY}' to save your API key.\nIf you need an API key, visit https://home.openweathermap.org/users/sign_up and create an account.\nOpen weather map provides a free API key that Sunny uses whenever it makes API calls.\n")
+		panic(fmt.Errorf("must use an API key"))
+	} else if key == "" {
+		err := config.SetUserKey(*userKey)
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	geo, err := geocoding.CityGeo(*userCity, key)
 	if err != nil {
