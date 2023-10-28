@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	config, err := config.InitConfig()
+	config, err := config.ExtractConfig()
 	if err != nil {
 		panic(err)
 	}

@@ -9,7 +9,7 @@ type Config struct {
 	HomeCity string `mapstructure:"home_city"`
 }
 
-func InitConfig() (Config, error) {
+func ExtractConfig() (Config, error) {
 	vp := viper.New()
 
 	vp.SetConfigName("sunny")
