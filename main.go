@@ -32,10 +32,19 @@ func main() {
 		}
 	}
 
-	geo, err := geocoding.CityGeo(*userCity, key)
+	geocodings, err := geocoding.CityGeo(*userCity, key)
 	if err != nil {
 		panic(err)
 	}
+
+    geo := geocoding.Geocoding{}
+    if len(geocodings) > 1 {
+        // THIS WILL BE REPLACED WITH COLLISION HANDLING
+        geo = geocodings[0]
+    } else {
+        geo = geocodings[0]
+    }
+
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude
 	currentWeather, err := weather.GetWeather(lat, lon, key)
 	if err != nil {
