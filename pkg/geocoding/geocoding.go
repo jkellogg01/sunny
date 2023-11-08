@@ -49,14 +49,12 @@ func CityGeo(city string, key string) ([]Geocoding, error) {
 func HandleGeoCollision(geos []Geocoding) (Geocoding, error) {
     fmt.Println("Found multiple cities with this name.")
     for i, geo := range geos {
-        fmt.Printf("%d. %v, %v, %v", i + 1, geo.City, geo.State, geo.Country)
+        fmt.Printf("%d. %v, %v, %v\n", i + 1, geo.City, geo.State, geo.Country)
     }
     fmt.Println("Which would you like to choose?")
-    reader := bufio.NewReader(os.Stdin)
-    input, err := reader.ReadBytes('\n')
-    if err != nil {
-        return Geocoding{}, err
-    }
+    scanner := bufio.NewScanner(os.Stdin)
+    scanner.Scan()
+    input := scanner.Text()
     menuItem, err := strconv.Atoi(string(input))
     if err != nil {
         return Geocoding{}, err
