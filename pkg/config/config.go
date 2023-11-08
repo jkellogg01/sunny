@@ -13,8 +13,8 @@ func InitConfig() (Config, error) {
 	vp := viper.New()
 
 	vp.SetConfigName("sunny")
-  vp.SetConfigType("json")
-  vp.AddConfigPath(".")
+	vp.SetConfigType("json")
+	vp.AddConfigPath(".")
 	vp.AddConfigPath("$HOME/.config/sunny")
 	err := vp.ReadInConfig()
 	if err != nil {

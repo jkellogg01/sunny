@@ -8,19 +8,19 @@ import (
 )
 
 type WeatherResponse struct {
-	Weather 			[]struct {
-		Short				string 	`json:"main"`
-		Description string 	`json:"description"`
-	} 										`json:"weather"`
-	Main 					struct {
+	Weather []struct {
+		Short       string `json:"main"`
+		Description string `json:"description"`
+	} `json:"weather"`
+	Main struct {
 		Temperature float32 `json:"temp"`
-		FeelsLike 	float32 `json:"feels_like"`
-		Humidity 		int 		`json:"humidity"`
-	} 										`json:"main"`
-	Wind 					struct {
-		Speed 			float32 `json:"speed"`
-		Direction 	int 		`json:"deg"`
-	} 										`json:"wind"`
+		FeelsLike   float32 `json:"feels_like"`
+		Humidity    int     `json:"humidity"`
+	} `json:"main"`
+	Wind struct {
+		Speed     float32 `json:"speed"`
+		Direction int     `json:"deg"`
+	} `json:"wind"`
 }
 
 func GetWeather(lat float64, lon float64, key string) (WeatherResponse, error) {
