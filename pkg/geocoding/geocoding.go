@@ -18,8 +18,10 @@ type Geocoding struct {
 	Longitude float64 `json:"lon"`
 }
 
+const max_cities int = 10
+
 func CityGeo(city string, key string) ([]Geocoding, error) {
-	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&appid=%v", city, key)
+	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&appid=%v&limit=%v", city, key, max_cities)
 	res, err := http.Get(endpoint)
 	if err != nil {
 		return []Geocoding{}, err
