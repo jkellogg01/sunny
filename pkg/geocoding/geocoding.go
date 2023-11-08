@@ -19,7 +19,7 @@ type Geocoding struct {
 }
 
 func CityGeo(city string, key string) ([]Geocoding, error) {
-	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&limit=1&appid=%v", city, key)
+	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&appid=%v", city, key)
 	res, err := http.Get(endpoint)
 	if err != nil {
 		return []Geocoding{}, err

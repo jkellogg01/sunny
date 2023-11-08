@@ -37,10 +37,12 @@ func main() {
 		panic(err)
 	}
 
-    geo := geocoding.Geocoding{}
+    var geo geocoding.Geocoding
     if len(geocodings) > 1 {
-        // THIS WILL BE REPLACED WITH COLLISION HANDLING
-        geo = geocodings[0]
+        geo, err = geocoding.HandleGeoCollision(geocodings)
+        if err != nil {
+            panic(err)
+        }
     } else {
         geo = geocodings[0]
     }
