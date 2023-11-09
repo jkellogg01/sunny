@@ -18,10 +18,8 @@ type Geocoding struct {
 	Longitude float64 `json:"lon"`
 }
 
-const max_cities int = 10
-
 func CityGeo(city string, key string) ([]Geocoding, error) {
-	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&appid=%v&limit=%v", city, key, max_cities)
+	endpoint := fmt.Sprintf("http://api.openweathermap.org/geo/1.0/direct?q=%v&appid=%v&limit=5", city, key)
 	res, err := http.Get(endpoint)
 	if err != nil {
 		return []Geocoding{}, err
@@ -47,20 +45,20 @@ func CityGeo(city string, key string) ([]Geocoding, error) {
 }
 
 func HandleGeoCollision(geos []Geocoding) (Geocoding, error) {
-    fmt.Println("Found multiple cities with this name.")
-    for i, geo := range geos {
-        fmt.Printf("%d. %v, %v, %v\n", i + 1, geo.City, geo.State, geo.Country)
-    }
-    fmt.Println("Which would you like to choose?")
-    scanner := bufio.NewScanner(os.Stdin)
-    scanner.Scan()
-    input := scanner.Text()
-    menuItem, err := strconv.Atoi(string(input))
-    if err != nil {
-        return Geocoding{}, err
-    }
-    if menuItem > len(geos) || menuItem < 1 {
-        return Geocoding{}, fmt.Errorf("selection outside of range")
-    }
-    return geos[menuItem - 1], nil
+	fmt.Println("Found multiple cities with this name.")
+	for i, geo := range geos {
+		fmt.Printf("%d. %v, %v, %v\n", i+1, geo.City, geo.State, geo.Country)
+	}
+	fmt.Println("Which would you like to choose?")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	input := scanner.Text()
+	menuItem, err := strconv.Atoi(string(input))
+	if err != nil {
+		return Geocoding{}, err
+	}
+	if menuItem > len(geos) || menuItem < 1 {
+		return Geocoding{}, fmt.Errorf("selection outside of range")
+	}
+	return geos[menuItem-1], nil
 }
