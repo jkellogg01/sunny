@@ -14,10 +14,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	home, key := userConfig.HomeCity, userConfig.ApiKey
-	fmt.Println(home)
+	key := userConfig.ApiKey
+	home := geocoding.Geocoding(userConfig.HomeCity)
 
-	userCity := flag.String("c", "", "Enter the city where you would like to look up the weather")
+	userCity := flag.String(
+		"c", 
+		fmt.Sprintf("%s,%s,%s", home.City, home.State, home.Country), 
+		"Enter the city where you would like to look up the weather",
+	)
 	flagKey := flag.String("k", "", "Enter your API key for the OpenWeatherMap API")
 	flag.Parse()
 

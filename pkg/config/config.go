@@ -45,8 +45,6 @@ func ExtractConfig() (Config, error) {
 		return Config{}, err
 	}
 
-	fmt.Println(config)
-
 	return config, nil
 }
 
