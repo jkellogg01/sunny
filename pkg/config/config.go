@@ -46,12 +46,12 @@ func SetUserKey(key string) error {
 	vp := viper.New()
 
 	vp.SetConfigName("sunny")
-  vp.SetConfigType("json")
+	vp.SetConfigType("json")
 	vp.AddConfigPath("$HOME/.config/sunny")
 
 	vp.Set("api_key", key)
 	err := vp.WriteConfig()
-	return err 
+	return err
 }
 
 // TODO: this function will create a sunny.json in the correct directory, and maybe prompt the user for an API key
