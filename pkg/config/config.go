@@ -9,12 +9,12 @@ import (
 type Config struct {
 	ApiKey   string `mapstructure:"api_key"`
 	HomeCity struct {
-        City string `mapstructure:"name"`
-        State string `mapstructure:"state"`
-        Country string `mapstructure:"country"`
-        Latitude float64 `mapstructure:"lat"`
-        Longitude float64 `mapstructure:"lon"`
-    } `mapstructure:"home_city"`
+		City      string  `mapstructure:"name"`
+		State     string  `mapstructure:"state"`
+		Country   string  `mapstructure:"country"`
+		Latitude  float64 `mapstructure:"lat"`
+		Longitude float64 `mapstructure:"lon"`
+	} `mapstructure:"home_city"`
 }
 
 func ExtractConfig() (Config, error) {
@@ -45,7 +45,7 @@ func ExtractConfig() (Config, error) {
 		return Config{}, err
 	}
 
-    fmt.Println(config)
+	fmt.Println(config)
 
 	return config, nil
 }
