@@ -15,8 +15,9 @@ func main() {
 		panic(err)
 	}
 	home, key := userConfig.HomeCity, userConfig.ApiKey
+	fmt.Println(home)
 
-	userCity := flag.String("c", home, "Enter the city where you would like to look up the weather")
+	userCity := flag.String("c", "", "Enter the city where you would like to look up the weather")
 	flagKey := flag.String("k", "", "Enter your API key for the OpenWeatherMap API")
 	flag.Parse()
 

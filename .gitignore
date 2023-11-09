@@ -1,5 +1,5 @@
 go.sum
 .DS_STORE
 .env
-sunny.json
+sunny*.json
 /bin*
