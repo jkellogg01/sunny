@@ -37,20 +37,24 @@ func main() {
 		}
 	}
 
-	geocodings, err := geocoding.CityGeo(*userCity, key)
-	if err != nil {
-		panic(err)
-	}
-
     var geo geocoding.Geocoding
-    if len(geocodings) > 1 {
-        geo, err = geocoding.HandleGeoCollision(geocodings)
-        if err != nil {
-            panic(err)
-        }
-    } else {
-        geo = geocodings[0]
-    }
+	if *userCity != "" {
+		geocodings, err := geocoding.CityGeo(*userCity, key)
+		if err != nil {
+			panic(err)
+		}
+
+		if len(geocodings) > 1 {
+			geo, err = geocoding.HandleGeoCollision(geocodings)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			geo = geocodings[0]
+		}
+	} else {
+		geo = home
+	}
 
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude
 	currentWeather, err := weather.GetWeather(lat, lon, key)
