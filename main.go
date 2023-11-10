@@ -15,7 +15,8 @@ func main() {
 		panic(err)
 	}
 	key := userConfig.ApiKey
-	home := geocoding.Geocoding(userConfig.HomeCity)
+	home := userConfig.HomeCity
+	defer userConfig.UpdateConfig()
 
 	userCity := flag.String(
 		"c", 
@@ -32,7 +33,10 @@ func main() {
 			fmt.Printf("It looks like you don't have an API key saved.\nIf you have an API key with openweathermap.org, run 'sunny -k {YOUR_API_KEY}' to save your API key.\nIf you need an API key, visit https://home.openweathermap.org/users/sign_up and create an account.\nOpen weather map provides a free API key that Sunny uses whenever it makes API calls.\n")
 			panic(fmt.Errorf("must use an API key"))
 		}
-		err := config.SetUserKey(*flagKey)
+		userConfig = config.Config{
+			ApiKey: *flagKey,
+			HomeCity: userConfig.HomeCity,
+		}
 		if err != nil {
 			panic(err)
 		}
@@ -58,7 +62,10 @@ func main() {
 	}
 
 	if *setHome {
-		config.SetUserHome(geo)
+		userConfig = config.Config{
+			HomeCity: geo,
+			ApiKey: userConfig.ApiKey,
+		}
 	}
 
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude
