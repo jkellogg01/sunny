@@ -58,7 +58,7 @@ func main() {
 	}
 
 	if *setHome {
-		config.SetUserHome(config.HomeCity(geo))
+		config.SetUserHome(geo)
 	}
 
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude

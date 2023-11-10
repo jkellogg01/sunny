@@ -1,78 +1,96 @@
 package config
 
 import (
+	"encoding/json"
 	"fmt"
-
-	"github.com/spf13/viper"
+	"os"
 )
-type HomeCity struct {
-	City      string  `mapstructure:"name"`
-	State     string  `mapstructure:"state"`
-	Country   string  `mapstructure:"country"`
-	Latitude  float64 `mapstructure:"lat"`
-	Longitude float64 `mapstructure:"lon"`
-}
+
 type Config struct {
-	ApiKey   string   `mapstructure:"api_key"`
-	HomeCity HomeCity `mapstructure:"home_city"`
+	ApiKey   string `json:"api_key"`
+	HomeCity struct {
+		City      string  `json:"name"`
+		State     string  `json:"state"`
+		Country   string  `json:"country"`
+		Latitude  float64 `json:"lat"`
+		Longitude float64 `json:"lon"`
+	} `json:"home_city"`
 }
 
 func ExtractConfig() (Config, error) {
-	vp := viper.New()
-
-	vp.SetConfigName("sunny")
-	vp.SetConfigType("json")
-	vp.AddConfigPath(".")
-	vp.AddConfigPath("$HOME/.config/sunny")
-
-	err := vp.ReadInConfig()
-	switch err.(type) {
-	case viper.ConfigFileAlreadyExistsError:
-		fmt.Println("No config file found, initializing new config...")
-		err = initConfig(vp)
-		if err != nil {
-			return Config{}, err
-		}
-	case error:
+	rawCfg, err := os.ReadFile("$HOME/.config/sunny")
+	if err == os.ErrNotExist {
+		// create a new config file
+	} else if err != nil {
 		return Config{}, err
-	default:
-		fmt.Println("Read config file successfully!")
 	}
-
-	var config Config
-	err = vp.Unmarshal(&config)
+	
+	var cfg Config
+	err = json.Unmarshal(rawCfg, &cfg)
 	if err != nil {
 		return Config{}, err
 	}
 
-	return config, nil
+	fmt.Println(cfg)
+	return cfg, nil
 }
 
-func SetUserKey(key string) error {
-	vp := viper.New()
+// func ExtractConfig() (Config, error) {
+// 	vp := viper.New()
 
-	vp.SetConfigName("sunny")
-	vp.SetConfigType("json")
-	vp.AddConfigPath("$HOME/.config/sunny")
+// 	vp.SetConfigName("sunny")
+// 	vp.SetConfigType("json")
+// 	vp.AddConfigPath(".")
+// 	vp.AddConfigPath("$HOME/.config/sunny")
 
-	vp.Set("api_key", key)
-	return vp.WriteConfig()
-}
+// 	err := vp.ReadInConfig()
+// 	switch err.(type) {
+// 	case viper.ConfigFileAlreadyExistsError:
+// 		fmt.Println("No config file found, initializing new config...")
+// 		err = initConfig(vp)
+// 		if err != nil {
+// 			return Config{}, err
+// 		}
+// 	case error:
+// 		return Config{}, err
+// 	default:
+// 		fmt.Println("Read config file successfully!")
+// 	}
 
-func SetUserHome(geo HomeCity) error {
-	vp := viper.New()
-	fmt.Println(geo)
+// 	var config Config
+// 	err = vp.Unmarshal(&config)
+// 	if err != nil {
+// 		return Config{}, err
+// 	}
 
-	vp.SetConfigName("sunny")
-	vp.SetConfigType("json")
-	vp.AddConfigPath("$HOME/.config/sunny")
+// 	return config, nil
+// }
 
-	vp.Set("home_city", geo)
-	return vp.WriteConfig()
-}
+// func SetUserKey(key string) error {
+// 	vp := viper.New()
 
-// TODO: this function will create a sunny.json in the correct directory, and maybe prompt the user for an API key
-func initConfig(vp *viper.Viper) error {
-	err := vp.WriteConfig()
-	return err
-}
+// 	vp.SetConfigName("sunny")
+// 	vp.SetConfigType("json")
+// 	vp.AddConfigPath("$HOME/.config/sunny")
+
+// 	vp.Set("api_key", key)
+// 	return vp.WriteConfig()
+// }
+
+// func SetUserHome(geo HomeCity) error {
+// 	vp := viper.New()
+// 	fmt.Println(geo)
+
+// 	vp.SetConfigName("sunny")
+// 	vp.SetConfigType("json")
+// 	vp.AddConfigPath("$HOME/.config/sunny")
+
+// 	vp.Set("home_city", geo)
+// 	return vp.WriteConfig()
+// }
+
+// // TODO: this function will create a sunny.json in the correct directory, and maybe prompt the user for an API key
+// func initConfig(vp *viper.Viper) error {
+// 	err := vp.WriteConfig()
+// 	return err
+// }
