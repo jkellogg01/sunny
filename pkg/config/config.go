@@ -4,27 +4,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/jkellogg01/sunny/pkg/geocoding"
 )
 
 type Config struct {
-	ApiKey   string `json:"api_key"`
-	HomeCity struct {
-		City      string  `json:"name"`
-		State     string  `json:"state"`
-		Country   string  `json:"country"`
-		Latitude  float64 `json:"lat"`
-		Longitude float64 `json:"lon"`
-	} `json:"home_city"`
+	ApiKey   string              `json:"api_key"`
+	HomeCity geocoding.Geocoding `json:"home_city"`
 }
 
 func ExtractConfig() (Config, error) {
 	rawCfg, err := os.ReadFile("$HOME/.config/sunny")
 	if err == os.ErrNotExist {
-		// create a new config file
+		initConfig("$HOME/.config/sunny")
 	} else if err != nil {
 		return Config{}, err
 	}
-	
+
 	var cfg Config
 	err = json.Unmarshal(rawCfg, &cfg)
 	if err != nil {
@@ -33,6 +29,29 @@ func ExtractConfig() (Config, error) {
 
 	fmt.Println(cfg)
 	return cfg, nil
+}
+
+func initConfig(path string) error {
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	cfgBlank := Config{
+		ApiKey: "",
+		HomeCity: geocoding.Geocoding{
+			City:      "",
+			State:     "",
+			Country:   "",
+			Latitude:  0,
+			Longitude: 0,
+		},
+	}
+	cfg, err := json.Marshal(cfgBlank)
+	if err != nil {
+		return err
+	}
+	file.Write(cfg)
+	return nil
 }
 
 // func ExtractConfig() (Config, error) {
