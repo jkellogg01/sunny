@@ -23,6 +23,7 @@ func main() {
 		"Enter the city where you would like to look up the weather",
 	)
 	flagKey := flag.String("k", "", "Enter your API key for the OpenWeatherMap API")
+	setHome := flag.Bool("h", false, "set the city specified with the -c flag as your home")
 	flag.Parse()
 
 	// Doing this instead of using a default value so that running 'sunny --help' doesn't expose the user's api key
@@ -54,6 +55,10 @@ func main() {
 		}
 	} else {
 		geo = home
+	}
+
+	if *setHome {
+		config.SetUserHome(config.HomeCity(geo))
 	}
 
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude

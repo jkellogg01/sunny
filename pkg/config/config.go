@@ -61,6 +61,7 @@ func SetUserKey(key string) error {
 
 func SetUserHome(geo HomeCity) error {
 	vp := viper.New()
+	fmt.Println(geo)
 
 	vp.SetConfigName("sunny")
 	vp.SetConfigType("json")
