@@ -14,10 +14,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	home, key := userConfig.HomeCity, userConfig.ApiKey
+	key := userConfig.ApiKey
+	home := geocoding.Geocoding(userConfig.HomeCity)
 
-	userCity := flag.String("c", home, "Enter the city where you would like to look up the weather")
+	userCity := flag.String(
+		"c", 
+		fmt.Sprintf("%s,%s,%s", home.City, home.State, home.Country), 
+		"Enter the city where you would like to look up the weather",
+	)
 	flagKey := flag.String("k", "", "Enter your API key for the OpenWeatherMap API")
+	setHome := flag.Bool("h", false, "set the city specified with the -c flag as your home")
 	flag.Parse()
 
 	// Doing this instead of using a default value so that running 'sunny --help' doesn't expose the user's api key
@@ -32,20 +38,28 @@ func main() {
 		}
 	}
 
-	geocodings, err := geocoding.CityGeo(*userCity, key)
-	if err != nil {
-		panic(err)
+    var geo geocoding.Geocoding
+	if *userCity != "" {
+		geocodings, err := geocoding.CityGeo(*userCity, key)
+		if err != nil {
+			panic(err)
+		}
+
+		if len(geocodings) > 1 {
+			geo, err = geocoding.HandleGeoCollision(geocodings)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			geo = geocodings[0]
+		}
+	} else {
+		geo = home
 	}
 
-    var geo geocoding.Geocoding
-    if len(geocodings) > 1 {
-        geo, err = geocoding.HandleGeoCollision(geocodings)
-        if err != nil {
-            panic(err)
-        }
-    } else {
-        geo = geocodings[0]
-    }
+	if *setHome {
+		config.SetUserHome(config.HomeCity(geo))
+	}
 
 	city, state, country, lat, lon := geo.City, geo.State, geo.Country, geo.Latitude, geo.Longitude
 	currentWeather, err := weather.GetWeather(lat, lon, key)
