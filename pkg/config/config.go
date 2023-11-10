@@ -8,16 +8,19 @@ import (
 	"github.com/jkellogg01/sunny/pkg/geocoding"
 )
 
+const cfg_path string = "$HOME/.config/sunny.json"
 type Config struct {
 	ApiKey   string              `json:"api_key"`
 	HomeCity geocoding.Geocoding `json:"home_city"`
 }
 
 func ExtractConfig() (Config, error) {
-	rawCfg, err := os.ReadFile("$HOME/.config/sunny")
+	rawCfg, err := os.ReadFile(cfg_path)
 	if err == os.ErrNotExist {
-		initConfig("$HOME/.config/sunny")
-	} else if err != nil {
+		mustInitConfig(cfg_path)
+		rawCfg, err = os.ReadFile(cfg_path)
+	}
+	if err != nil {
 		return Config{}, err
 	}
 
@@ -31,10 +34,23 @@ func ExtractConfig() (Config, error) {
 	return cfg, nil
 }
 
-func initConfig(path string) error {
-	file, err := os.Create(path)
+func (cfg *Config) UpdateConfig() error {
+	file, err := os.Open(cfg_path)
 	if err != nil {
 		return err
+	}
+	cfgWrite, err := json.Marshal(cfg)
+	if err != nil {
+		return err
+	}
+	_, err = file.Write(cfgWrite)
+	return err
+}
+
+func mustInitConfig(path string) {
+	file, err := os.Create(path)
+	if err != nil {
+		panic(err)
 	}
 	cfgBlank := Config{
 		ApiKey: "",
@@ -48,10 +64,12 @@ func initConfig(path string) error {
 	}
 	cfg, err := json.Marshal(cfgBlank)
 	if err != nil {
-		return err
+		panic(err)
 	}
-	file.Write(cfg)
-	return nil
+	_, err = file.Write(cfg)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // func ExtractConfig() (Config, error) {
