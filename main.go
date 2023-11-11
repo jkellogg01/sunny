@@ -17,11 +17,7 @@ func main() {
 	key := userConfig.ApiKey
 	home := userConfig.HomeCity
 
-	userCity := flag.String(
-		"c",
-		fmt.Sprintf("%s,%s,%s", home.City, home.State, home.Country),
-		"Enter the city where you would like to look up the weather",
-	)
+	userCity := flag.String("c", "", "Enter the city where you would like to look up the weather")
 	flagKey := flag.String("k", "", "Enter your API key for the OpenWeatherMap API")
 	setHome := flag.Bool("h", false, "set the city specified with the -c flag as your home")
 	flag.Parse()
