@@ -16,11 +16,10 @@ func main() {
 	}
 	key := userConfig.ApiKey
 	home := userConfig.HomeCity
-	defer userConfig.UpdateConfig()
 
 	userCity := flag.String(
-		"c", 
-		fmt.Sprintf("%s,%s,%s", home.City, home.State, home.Country), 
+		"c",
+		fmt.Sprintf("%s,%s,%s", home.City, home.State, home.Country),
 		"Enter the city where you would like to look up the weather",
 	)
 	flagKey := flag.String("k", "", "Enter your API key for the OpenWeatherMap API")
@@ -34,15 +33,16 @@ func main() {
 			panic(fmt.Errorf("must use an API key"))
 		}
 		userConfig = config.Config{
-			ApiKey: *flagKey,
+			ApiKey:   *flagKey,
 			HomeCity: userConfig.HomeCity,
 		}
+		userConfig.UpdateConfig()
 		if err != nil {
 			panic(err)
 		}
 	}
 
-    var geo geocoding.Geocoding
+	var geo geocoding.Geocoding
 	if *userCity != "" {
 		geocodings, err := geocoding.CityGeo(*userCity, key)
 		if err != nil {
@@ -64,7 +64,11 @@ func main() {
 	if *setHome {
 		userConfig = config.Config{
 			HomeCity: geo,
-			ApiKey: userConfig.ApiKey,
+			ApiKey:   userConfig.ApiKey,
+		}
+		err := userConfig.UpdateConfig()
+		if err != nil {
+			panic(err)
 		}
 	}
 
