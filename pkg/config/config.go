@@ -48,7 +48,7 @@ func (cfg *Config) UpdateConfig() error {
 	}
 	defer file.Close()
 	
-	cfgWrite, err := json.Marshal(cfg)
+	cfgWrite, err := json.MarshalIndent(cfg, "" , "\t")
 	if err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func mustInitConfig(path string) {
 			Longitude: 0,
 		},
 	}
-	cfg, err := json.Marshal(cfgBlank)
+	cfg, err := json.MarshalIndent(cfgBlank, "" , "\t")
 	if err != nil {
 		panic(err)
 	}
