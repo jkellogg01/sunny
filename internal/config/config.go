@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jkellogg01/sunny/pkg/geocoding"
+	"github.com/jkellogg01/sunny/internal/geocoding"
 )
 
 type Config struct {
@@ -46,8 +46,8 @@ func (cfg *Config) UpdateConfig() error {
 		return err
 	}
 	defer file.Close()
-	
-	cfgWrite, err := json.MarshalIndent(cfg, "" , "\t")
+
+	cfgWrite, err := json.MarshalIndent(cfg, "", "\t")
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func mustInitConfig(path string) {
 			Longitude: 0,
 		},
 	}
-	cfg, err := json.MarshalIndent(cfgBlank, "" , "\t")
+	cfg, err := json.MarshalIndent(cfgBlank, "", "\t")
 	if err != nil {
 		panic(err)
 	}

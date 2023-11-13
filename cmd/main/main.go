@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/jkellogg01/sunny/pkg/config"
-	"github.com/jkellogg01/sunny/pkg/geocoding"
-	"github.com/jkellogg01/sunny/pkg/weather"
+	"github.com/jkellogg01/sunny/internal/config"
+	"github.com/jkellogg01/sunny/internal/geocoding"
+	"github.com/jkellogg01/sunny/internal/weather"
 )
 
 func main() {
