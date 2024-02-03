@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jkellogg01/sunny/internal/geocoding"
+	"github.com/jkellogg01/sunny/pkg/geocoding"
 )
 
 type Config struct {
