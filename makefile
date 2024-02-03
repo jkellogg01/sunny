@@ -1,5 +1,8 @@
 run: build
-	@./bin/sunny
+	@bin/sunny
 
 build:
-	@go build -o bin/sunny cmd/main/main.go
+	@go build -o bin/sunny main.go
+
+clean:
+	@$(RM) bin/*
