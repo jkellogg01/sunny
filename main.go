@@ -32,7 +32,7 @@ func main() {
 			ApiKey:   *flagKey,
 			HomeCity: userConfig.HomeCity,
 		}
-		userConfig.UpdateConfig()
+		err = userConfig.UpdateConfig()
 		if err != nil {
 			panic(err)
 		}
